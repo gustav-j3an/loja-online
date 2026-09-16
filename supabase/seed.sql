@@ -1,8 +1,7 @@
 -- Missão 1: Seed de Desenvolvimento (Camisetas SUA MARCA)
--- Apenas para uso em ambiente dev/local
+-- Apenas para uso em ambiente dev/local (carga inicial no banco vazio)
 
--- Limpeza preventiva de dados de teste antigos
-TRUNCATE public.product_variants, public.product_images, public.products, public.categories CASCADE;
+BEGIN;
 
 -- 1. CATEGORIAS
 INSERT INTO public.categories (id, name, slug, description) VALUES
@@ -16,7 +15,7 @@ INSERT INTO public.products (id, category_id, name, slug, description, status, p
 ('a1111111-1111-1111-1111-111111111111', '11111111-1111-1111-1111-111111111111', 'Camiseta Essential Off-White', 'camiseta-essential-off-white', 'Camiseta confeccionada em 100% algodão pima com toque ultra macio. Gola em ribana de 2cm, costuras reforçadas de ombro a ombro.', 'published', 12990),
 
 -- Produto 2 (Publicado)
-('a2222222-2222-2222-2222-222222222222', '11111111-1111-1111-1111-111111111111', 'Camiseta Essential Preteada Minimal', 'camiseta-essential-pretada-minimal', 'Modelagem clássica na cor preta profunda. Algodão penteado 30.1 de alta gramatura que mantém a estrutura mesmo após várias lavagens.', 'published', 11990),
+('a2222222-2222-2222-2222-222222222222', '11111111-1111-1111-1111-111111111111', 'Camiseta Essential Preta Minimal', 'camiseta-essential-preta-minimal', 'Modelagem clássica na cor preta profunda. Algodão penteado 30.1 de alta gramatura que mantém a estrutura mesmo após várias lavagens.', 'published', 11990),
 
 -- Produto 3 (Publicado)
 ('a3333333-3333-3333-3333-333333333333', '22222222-2222-2222-2222-222222222222', 'Camiseta Oversized Heavyweight Areia', 'camiseta-oversized-heavyweight-areia', 'Modelagem oversized contemporânea com gramatura de 240g/m². Caimento firme no corpo e ombros caídos.', 'published', 16990),
@@ -65,3 +64,5 @@ INSERT INTO public.product_variants (product_id, sku, color, size, stock, is_act
 -- Variantes Produto 4 (Grafite)
 ('a4444444-4444-4444-4444-444444444444', 'LTD-MNG-M', 'Grafite', 'M', 7, true),
 ('a4444444-4444-4444-4444-444444444444', 'LTD-MNG-G', 'Grafite', 'G', 3, true);
+
+COMMIT;
