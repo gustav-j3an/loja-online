@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { Menu, X, ShoppingBag, Database } from 'lucide-react';
+import { Menu, X, ShoppingBag, Database, User as UserIcon } from 'lucide-react';
 import { STORE_CONFIG } from '../../config/store.config';
 import { useCart } from '../../context/useCart';
+import { useAuth } from '../../context/useAuth';
 import { isDemoMode } from '../../services/supabaseClient';
 
 export const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { totalUnits } = useCart();
+  const { user } = useAuth();
 
   return (
     <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-neutral-100">
@@ -70,8 +72,19 @@ export const Header: React.FC = () => {
             </NavLink>
           </nav>
 
-          {/* Sacola de compras com indicador de contagem */}
+          {/* Sacola de compras e Autenticação */}
           <div className="flex items-center space-x-4">
+            <Link
+              to={user ? '/minha-conta' : '/entrar'}
+              className="p-2 text-neutral-700 hover:text-neutral-900 transition-colors flex items-center gap-1.5"
+              title={user ? 'Minha Conta' : 'Entrar na Conta'}
+            >
+              <UserIcon className="w-5 h-5 stroke-1" />
+              <span className="hidden sm:inline text-xs font-medium text-neutral-700">
+                {user ? 'Minha Conta' : 'Entrar'}
+              </span>
+            </Link>
+
             <Link
               to="/carrinho"
               className="p-2 text-neutral-700 hover:text-neutral-900 transition-colors flex items-center gap-2 relative"
@@ -118,6 +131,17 @@ export const Header: React.FC = () => {
             Loja / Catálogo
           </NavLink>
           <NavLink
+            to={user ? '/minha-conta' : '/entrar'}
+            onClick={() => setIsMobileMenuOpen(false)}
+            className={({ isActive }) =>
+              `block py-2 text-sm uppercase tracking-wider ${
+                isActive ? 'text-neutral-900 font-semibold' : 'text-neutral-600'
+              }`
+            }
+          >
+            {user ? 'Minha Conta' : 'Entrar / Cadastrar'}
+          </NavLink>
+          <NavLink
             to="/carrinho"
             onClick={() => setIsMobileMenuOpen(false)}
             className={({ isActive }) =>
@@ -133,3 +157,4 @@ export const Header: React.FC = () => {
     </header>
   );
 };
+
